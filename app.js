@@ -68,11 +68,26 @@ app
   })
 
   .put(function (req, res) {
-    Article.update(
+    Article.updateOne(
       { title: req.params.articleTitle },
       { title: req.body.title, content: req.body.content },
       { overwrite: true }
     ).then(() => res.send("Successfully updated article"));
+  })
+
+  .patch(function (req, res) {
+    Article.updateOne(
+      { title: req.params.articleTitle },
+      { $set: req.body }
+    ).then(() => res.send("Successfully updated article"));
+  })
+
+  .delete(function (req, res) {
+    Article.deleteOne({ title: req.params.articleTitle })
+      .then(() => res.send("Successfully deleted corresponding article."))
+      .catch((err) => {
+        console.error(err);
+      });
   });
 
 // (function (err) {
